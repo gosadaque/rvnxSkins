@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<script>
+		if(document.location.href.indexOf('pages.dev') > -1) { 
+			document.location.href = 'https://xivleve.org/';
+		}
+	</script>
+	<script src="./tabulator/dist/js/tabulator.js"></script>
+	<script type="text/javascript" src="allLeves.js"></script>
+	<link href="./main.css" rel="stylesheet" async>
+	<script>
+		const queryString = window.location.search;
+		const urlParams = new URLSearchParams(queryString);
+		const dc = urlParams.get('dc');
+		const dcs = {
+			"aether": ["adamantoise", "cactuar", "faerie", "gilgamesh", "jenova", "midgardsormr", "sargatanas", "siren"],
+			"primal": ["behemoth", "excalibur", "exodus", "famfrit", "famfrit", "lamia", "leviathan", "ultros"],
+			"crystal": ["balmung", "brynhildr", "coeurl", "diabolos", "goblin", "malboro", "mateus", "zalera"],
+			"chaos": ["cerberus", "louisoix", "moogle", "omega", "ragnarok", "spriggan"],
+			"light": ["lich", "zodiark", "twintania", "phoenix", "shiva", "odin"],
+			"materia": ["bismarck", "ravana", "sephirot", "sophia", "zurvan"],
+			"elemental": ["aegis", "atomos", "carbuncle", "garuda", "gungnir", "kujata", "ramuh", "tonberry", "typhon", "unicorn"],
+			"gaia": ["alexander", "bahamut", "durandal", "fenrir", "ifrit", "ridill", "tiamat", "ultima", "valefor", "yojimbo", "zeromus"],
+			"mana": ["anima", "asura", "belias", "chocobo", "hades", "ixion", "mandragora", "masamune", "pandaemonium", "shinryu", "titan"]
+		};
+		const servers = dcs[dc];
+		
+	</script>
+	<title>xivLeve</title>
+</head>
+
+<body> 
+	<div class="home">
+		<div class="centr">
+			<div class="box">
+				<h2>xivLeves</h2>
+			</div>
+			<div class="box">
+			</div>
+			<div class="box">
+				Every hour new easy FFXIV leves!
+				<br/>
+				<!--progress value="70" max="100">70 %</progress            https://stackoverflow.com/questions/53711744/progress-bar-between-two-dates-fetch-var-from-script-html                  !-->
+			</div>
+			<div class="box">
+				Which datacenter are you from?
+				<br/><br/>
+				<div class="home">
+					<div class="box">
+						North America
+						<br/><a href="?dc=aether">Aether</a> | <a href="?dc=primal">Primal</a> | <a href="?dc=crystal">Crystal</a> <br/><br/>
+					</div>
+					<div class="box">
+						Europe
+						<br/><a href="?dc=chaos">Chaos</a> | <a href="?dc=light">Light</a> <br/><br/>
+					</div>
+					<div class="box">
+						Oceanian
+						<br/><a href="?dc=materia">Materia</a><br/><br/>
+					</div>
+					<div class="box">
+						Japan
+						<br/><a href="?dc=elemental">Elemental</a> | <a href="?dc=gaia">Gaia</a> | <a href="?dc=mana">Mana</a>
+					</div>
+				</div>
+			</div>
+			<div class="box">
+				<img src="./img/levesplate.webp" alt="Levequest Plates" width="400" height="330"/>
+			</div>
+			<div class="box">
+				Soon Coming:
+				<div class="box">
+					Item Icons
+				</div>
+				<div class="box">
+					Class Icons
+				</div>
+				<div class="box">
+					Update Progress Bar
+				</div>
+			</div>
+			<div class="box">
+			</div>
+			<div class="box">
+				Code by <a href="https://linktr.ee/janmuesli" target="_blank" rel="noopener">Jan Müsli</a>. 
+				Prices by <a href="https://universalis.app/" target="_blank" rel="noopener">Universalis</a>. 
+				<br/><br/>
+				FINAL FANTASY is a registered trademark of 
+				<br/>
+				Square Enix Holdings Co., Ltd. 
+				<br/>
+				xivLeves is not affiliated with Square Enix.
+			</div>
+		</div>
+		
+		<div class="centr">
+			<div class="box"><div id="track-table"></div></div>
+			<div class="box">
+			</div>
+			<div class="box"><div id="leve-table"></div></div>
+		</div>	
+	</div>
+	
+	
+</body>
+
+<script async>
+	
+	//define data array
+	var tabledata = [];
+	var allLeves = JSON.parse(allLeves);
+	for(var i = 0; i <= 1148; i++) {
+		
+		//for adding picture: "<img src='https://garlandtools.org/files/icons/item/" + allLeves[i]["lv_item_id"] + ".webp'> " + 
+		
+		tupel={};
+		tupel.name=allLeves[i]["lv_name"]["en"];
+		if(allLeves[i]["lv_item_count"] > 1) {
+			tupel.item=allLeves[i]["lv_item_count"] + "x <a href='https://garlandtools.org/db/#item/" + allLeves[i]["lv_item_id"] + "' target='_blank'>" + allLeves[i]["lv_item"]["en"] + "</a>";
+		} else {
+			tupel.item="<a href='https://garlandtools.org/db/#item/" + allLeves[i]["lv_item_id"] + "' target='_blank'>" + allLeves[i]["lv_item"]["en"] + "</a>";
+		}
+		tupel.allowance=allLeves[i]["lv_allowance"];
+		tupel.repeats=allLeves[i]["lv_time"];
+		tupel.place=allLeves[i]["lv_place"];
+		tupel.job=allLeves[i]["lv_job"] + " (" + allLeves[i]["lv_lvl"] + ")";
+		var lowestServer = "-";
+		var lowestPrice = 99999999997189;
+		for(const server of servers) {
+			if(allLeves[i][server] < lowestPrice) {
+				lowestPrice = allLeves[i][server];
+				lowestServer = server;
+			}
+		}
+		lowestServerFirstLetter=lowestServer.charAt(0)
+		lowestServerFirstLetter=lowestServerFirstLetter.toUpperCase()
+		lowestServer=lowestServer.slice(1);
+		lowestServer=lowestServerFirstLetter+lowestServer
+		tupel.server=lowestServer;
+		if(lowestPrice == 99999999997189) {
+			tupel.price="-";
+		} else {
+			tupel.price="<a href='https://universalis.app/market/" + allLeves[i]["lv_item_id"] + "' target='_blank'>" + lowestPrice + "</a>";
+		}
+		tupel.reward=allLeves[i]["lv_gil"];
+		tupel.profit = allLeves[i]["lv_gil"] * allLeves[i]["lv_time"] - lowestPrice * allLeves[i]["lv_item_count"] * allLeves[i]["lv_time"];
+		if(lowestPrice == 99999999997189) {
+			tupel.profit = 0;
+			tupel.ppa = 0;
+		} else {
+			tupel.ppa = tupel.profit / allLeves[i]["lv_allowance"];
+		}
+		tabledata.push(tupel);
+	}
+	
+
+	//initialize table
+	var table = new Tabulator("#leve-table", {
+		data:tabledata, //assign data to table
+		columns:[
+		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30},
+		{title:"Name", field:"name", resizable:true },
+		{title:"Item", field:"item", resizable:true, formatter:function(cell, formatterParams){
+			var value = cell.getValue();
+			return value;
+		}},
+		{title:"Allowances", field:"allowance", resizable:true, hozAlign:"right" },
+		{title:"Repeats", field:"repeats", resizable:true, hozAlign:"right" },
+		{title:"Place", field:"place", resizable:true },
+		{title:"Job (lvl)", field:"job", resizable:true },
+		{title:"Server", field:"server", resizable:true },
+		{title:"Price", field:"price", resizable:true, hozAlign:"right", formatter:function(cell, formatterParams){
+			var value = cell.getValue();
+			return value;
+		} },
+		{title:"Ø Reward", field:"reward", resizable:true, hozAlign:"right"},
+		{title:"Profit", field:"profit", resizable:true, hozAlign:"right" },
+		{title:"PPA", field:"ppa", resizable:true, hozAlign:"right" },
+		],
+		layout:"fitDataTable",
+		pagination:"local",       //paginate the data
+		paginationSize:20,         //allow x rows per page of data
+		layoutColumnsOnNewData:true,
+		movableRows:true,
+		movableRowsConnectedTables:"#track-table",
+		movableRowsReceiver: "add",
+		movableRowsSender: "delete",
+		placeholder:"All Rows Moved",
+
+	});
+	
+	//initialize table
+	var table = new Tabulator("#track-table", {
+		columns:[
+		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30},
+		{title:"Name", field:"name" },
+		{title:"Item", field:"item", formatter:function(cell, formatterParams){
+			var value = cell.getValue();
+			return value;
+		}},
+		{title:"Allowances", field:"allowance", hozAlign:"right" },
+		{title:"Repeats", field:"repeats", hozAlign:"right" },
+		{title:"Place", field:"place" },
+		{title:"Job (lvl)", field:"job" },
+		{title:"Server", field:"server" },
+		{title:"Price", field:"price", hozAlign:"right", formatter:function(cell, formatterParams){
+			var value = cell.getValue();
+			return value;
+		} },
+		{title:"Ø Reward", field:"reward", hozAlign:"right"},
+		{title:"Profit", field:"profit", hozAlign:"right" },
+		{title:"PPA", field:"ppa", sorter:"number", hozAlign:"right" },
+		],
+		layout:"fitDataTable",
+		pagination:"local",       //paginate the data
+		paginationSize:20,         //allow x rows per page of data
+		layoutColumnsOnNewData:true,
+		movableRows:true,
+		movableRowsConnectedTables:"#leve-table",
+		movableRowsReceiver: "add",
+		movableRowsSender: "delete",
+		placeholder:"Drag leves here to keep track of them",
+	});
+</script>
+	
+
+</html>
