@@ -46,14 +46,14 @@
 			<div class="box">
 				Code by <a href="https://linktr.ee/janmuesli" target="_blank" rel="noopener">Jan Müsli</a>. 
 				Prices by <a href="https://skinport.com/" target="_blank" rel="noopener">Skinport</a>. 
-				<br/><br/>
+				<br/>
 				<br/>
 				rvnxSkins is not affiliated with rvnxMango.
 			</div>
 		</div>
 		
 		<div class="centr">
-			<div class="box"><div id="leve-table"></div></div>
+			<div class="box"><div id="skins-table"></div></div>
 		</div>	
 	</div>
 	
@@ -61,121 +61,39 @@
 </body>
 
 <script async>
-	
-	//define data array
 	var tabledata = [];
-	var allLeves = JSON.parse(allLeves);
-	for(var i = 0; i <= 1148; i++) {
-		
-		//for adding picture: "<img src='https://garlandtools.org/files/icons/item/" + allLeves[i]["lv_item_id"] + ".webp'> " + 
-		
+	var allSkins = JSON.parse(allLeves);
+	for(var i = 0; i <= 15; i++) {
 		tupel={};
-		tupel.name=allLeves[i]["lv_name"]["en"];
-		if(allLeves[i]["lv_item_count"] > 1) {
-			tupel.item=allLeves[i]["lv_item_count"] + "x <a href='https://garlandtools.org/db/#item/" + allLeves[i]["lv_item_id"] + "' target='_blank'>" + allLeves[i]["lv_item"]["en"] + "</a>";
-		} else {
-			tupel.item="<a href='https://garlandtools.org/db/#item/" + allLeves[i]["lv_item_id"] + "' target='_blank'>" + allLeves[i]["lv_item"]["en"] + "</a>";
-		}
-		tupel.allowance=allLeves[i]["lv_allowance"];
-		tupel.repeats=allLeves[i]["lv_time"];
-		tupel.place=allLeves[i]["lv_place"];
-		tupel.job=allLeves[i]["lv_job"] + " (" + allLeves[i]["lv_lvl"] + ")";
-		var lowestServer = "-";
-		var lowestPrice = 99999999997189;
-		for(const server of servers) {
-			if(allLeves[i][server] < lowestPrice) {
-				lowestPrice = allLeves[i][server];
-				lowestServer = server;
-			}
-		}
-		lowestServerFirstLetter=lowestServer.charAt(0)
-		lowestServerFirstLetter=lowestServerFirstLetter.toUpperCase()
-		lowestServer=lowestServer.slice(1);
-		lowestServer=lowestServerFirstLetter+lowestServer
-		tupel.server=lowestServer;
-		if(lowestPrice == 99999999997189) {
-			tupel.price="-";
-		} else {
-			tupel.price="<a href='https://universalis.app/market/" + allLeves[i]["lv_item_id"] + "' target='_blank'>" + lowestPrice + "</a>";
-		}
-		tupel.reward=allLeves[i]["lv_gil"];
-		tupel.profit = allLeves[i]["lv_gil"] * allLeves[i]["lv_time"] - lowestPrice * allLeves[i]["lv_item_count"] * allLeves[i]["lv_time"];
-		if(lowestPrice == 99999999997189) {
-			tupel.profit = 0;
-			tupel.ppa = 0;
-		} else {
-			tupel.ppa = tupel.profit / allLeves[i]["lv_allowance"];
-		}
+		tupel.name="<a href='" + allSkins[i]["link"] + "' target='_blank'>" + allSkins[i]["name"] + "</a>";
+		tupel.invest=allSkins[i]["invest"];
+		tupel.min_price=allSkins[i]["min_price"];
+		tupel.suggested_price=allSkins[i]["suggested_price"];
+		tupel.reward=allSkins[i]["suggested_price"]-allSkins[i]["invest"];
+		tupel.percent= (allSkins[i]["suggested_price"] / allSkins[i]["invest"]) * 100;
+		
 		tabledata.push(tupel);
 	}
 	
 
 	//initialize table
-	var table = new Tabulator("#leve-table", {
+	var table = new Tabulator("#skins-table", {
 		data:tabledata, //assign data to table
 		columns:[
 		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30},
-		{title:"Name", field:"name", resizable:true },
-		{title:"Item", field:"item", resizable:true, formatter:function(cell, formatterParams){
-			var value = cell.getValue();
-			return value;
-		}},
-		{title:"Allowances", field:"allowance", resizable:true, hozAlign:"right" },
-		{title:"Repeats", field:"repeats", resizable:true, hozAlign:"right" },
-		{title:"Place", field:"place", resizable:true },
-		{title:"Job (lvl)", field:"job", resizable:true },
-		{title:"Server", field:"server", resizable:true },
-		{title:"Price", field:"price", resizable:true, hozAlign:"right", formatter:function(cell, formatterParams){
-			var value = cell.getValue();
-			return value;
-		} },
-		{title:"Ø Reward", field:"reward", resizable:true, hozAlign:"right"},
-		{title:"Profit", field:"profit", resizable:true, hozAlign:"right" },
-		{title:"PPA", field:"ppa", resizable:true, hozAlign:"right" },
+		{title:"Name", field:"name", resizable:true, hozAlign:"right", formatter:function(cell, formatterParams){
+                        var value = cell.getValue();
+                        return value;
+                } },
+		{title:"Price", field:"invest", resizable:true, hozAlign:"right" },
+		{title:"Min. Price", field:"min_price", resizable:true, hozAlign:"right" },
+		{title:"Sug. Price", field:"suggested_price", resizable:true },
+		
+		{title:"Reward", field:"reward", resizable:true, hozAlign:"right"},
+		{title:"in %", field:"percent", resizable:true, hozAlign:"right" },
 		],
 		layout:"fitDataTable",
-		pagination:"local",       //paginate the data
-		paginationSize:20,         //allow x rows per page of data
 		layoutColumnsOnNewData:true,
-		movableRows:true,
-		movableRowsConnectedTables:"#track-table",
-		movableRowsReceiver: "add",
-		movableRowsSender: "delete",
-		placeholder:"All Rows Moved",
-
-	});
-	
-	//initialize table
-	var table = new Tabulator("#track-table", {
-		columns:[
-		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30},
-		{title:"Name", field:"name" },
-		{title:"Item", field:"item", formatter:function(cell, formatterParams){
-			var value = cell.getValue();
-			return value;
-		}},
-		{title:"Allowances", field:"allowance", hozAlign:"right" },
-		{title:"Repeats", field:"repeats", hozAlign:"right" },
-		{title:"Place", field:"place" },
-		{title:"Job (lvl)", field:"job" },
-		{title:"Server", field:"server" },
-		{title:"Price", field:"price", hozAlign:"right", formatter:function(cell, formatterParams){
-			var value = cell.getValue();
-			return value;
-		} },
-		{title:"Ø Reward", field:"reward", hozAlign:"right"},
-		{title:"Profit", field:"profit", hozAlign:"right" },
-		{title:"PPA", field:"ppa", sorter:"number", hozAlign:"right" },
-		],
-		layout:"fitDataTable",
-		pagination:"local",       //paginate the data
-		paginationSize:20,         //allow x rows per page of data
-		layoutColumnsOnNewData:true,
-		movableRows:true,
-		movableRowsConnectedTables:"#leve-table",
-		movableRowsReceiver: "add",
-		movableRowsSender: "delete",
-		placeholder:"Drag leves here to keep track of them",
 	});
 </script>
 	
