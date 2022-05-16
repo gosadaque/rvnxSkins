@@ -93,7 +93,6 @@
 	var table = new Tabulator("#skins-table", {
 		data:tabledata, //assign data to table
 		columns:[
-		{rowHandle:true, formatter:"handle", headerSort:false, frozen:true, width:30, minWidth:30},
 		{title:"Name", field:"name", resizable:true, hozAlign:"right", formatter:function(cell, formatterParams){
                         var value = cell.getValue();
                         return value;
