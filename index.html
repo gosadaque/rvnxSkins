@@ -74,16 +74,18 @@
 			tupel.name="<a href='" + allSkins[i]["link.sp"] + "' target='_blank'>" + allSkins[i]["name"] + "</a>";
 		} 
 		tupel.invest=allSkins[i]["invest"]*allSkins[i]["count"];
-		tupel.min_price=allSkins[i]["min_price.sp"]*allSkins[i]["count"];
-		tupel.suggested_price=allSkins[i]["suggested_price.sp"]*allSkins[i]["count"];
+		tupel.min_price_sp=allSkins[i]["min_price.sp"]*allSkins[i]["count"];
+		tupel.suggested_price_sp=allSkins[i]["suggested_price.sp"]*allSkins[i]["count"];
 		tupel.reward=allSkins[i]["suggested_price.sp"]*allSkins[i]["count"]-allSkins[i]["invest"]*allSkins[i]["count"];
 		tupel.percent=((allSkins[i]["suggested_price.sp"]*allSkins[i]["count"])/(allSkins[i]["invest"]*allSkins[i]["count"]))*100-100;
-		
+		tupel.min_price_sb=allSkins[i]["min_price.sb"]*allSkins[i]["count"];
+
 		tupel.invest=tupel.invest.toFixed(2);
-		tupel.min_price=tupel.min_price.toFixed(2);
-		tupel.suggested_price=tupel.suggested_price.toFixed(2);
+		tupel.min_price_sp=tupel.min_price_sp.toFixed(2);
+		tupel.suggested_price_sp=tupel.suggested_price_sp.toFixed(2);
 		tupel.reward=tupel.reward.toFixed(2);
 		tupel.percent=tupel.percent.toFixed(2);
+		tupel.min_price_sb=tupel.min_price_sb.toFixed(2);
 		
 		tabledata.push(tupel);
 	}
@@ -101,15 +103,15 @@
 		{
 			title:"<a href='https://skinport.com/'>SkinPort</a>: Prices in €",
 			columns:[
-				{title:"Minimum", field:"min_price", resizable:true, hozAlign:"right" },
-				{title:"Suggested", field:"suggested_price", resizable:true, hozAlign:"right" },
+				{title:"Minimum", field:"min_price_sp", resizable:true, hozAlign:"right" },
+				{title:"Suggested", field:"suggested_price_sp", resizable:true, hozAlign:"right" },
 			],
 		},
 		
 		{
 			title:"<a href='https://skinbaron.de/'>SkinBaron</a>: Prices in €",
 			columns:[
-				{title:"Minimum", field:"min_price", resizable:true, hozAlign:"right" },
+				{title:"Minimum", field:"min_price_sb", resizable:true, hozAlign:"right" },
 			],
 		},
 		
