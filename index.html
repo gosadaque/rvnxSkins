@@ -65,7 +65,11 @@
 	var allSkins = JSON.parse(allSkins);
 	for(var i = 0; i <= 15; i++) {
 		tupel={};
-		tupel.name="<a href='" + allSkins[i]["link"] + "' target='_blank'>" + allSkins[i]["name"] + "</a>";
+		if (allSkins[i]["count"] > 1) {
+			tupel.name=allSkins[i]["count"]+"x <a href='" + allSkins[i]["link"] + "' target='_blank'>" + allSkins[i]["name"] + "</a>";
+		} else {
+			tupel.name="<a href='" + allSkins[i]["link"] + "' target='_blank'>" + allSkins[i]["name"] + "</a>";
+		} 
 		tupel.invest=allSkins[i]["invest"];
 		tupel.min_price=allSkins[i]["min_price"];
 		tupel.suggested_price=allSkins[i]["suggested_price"];
