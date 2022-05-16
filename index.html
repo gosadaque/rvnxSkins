@@ -74,8 +74,12 @@
 		tupel.min_price=allSkins[i]["min_price"]*allSkins[i]["count"];
 		tupel.suggested_price=allSkins[i]["suggested_price"]*allSkins[i]["count"];
 		tupel.reward=allSkins[i]["suggested_price"]-allSkins[i]["invest"];
-		tupel.reward=tupel.reward.toFixed(2);
 		tupel.percent=(allSkins[i]["suggested_price"]/allSkins[i]["invest"])*100-100;
+		
+		tupel.invest=tupel.invest.toFixed(2);
+		tupel.min_price=tupel.min_price.toFixed(2);
+		tupel.suggested_price=tupel.suggested_price.toFixed(2);
+		tupel.reward=tupel.reward.toFixed(2);
 		tupel.percent=tupel.percent.toFixed(2);
 		
 		tabledata.push(tupel);
@@ -96,7 +100,7 @@
 		{title:"Sug. Price", field:"suggested_price", resizable:true },
 		
 		{title:"Reward", field:"reward", resizable:true, hozAlign:"right", bottomCalc:"sum"},
-		{title:"in %", field:"percent", resizable:true, hozAlign:"right", bottomCalc:"avg" },
+		{title:"in %", field:"percent", resizable:true, hozAlign:"right" },
 		],
 		layout:"fitDataTable",
 		layoutColumnsOnNewData:true,
