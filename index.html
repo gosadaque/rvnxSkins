@@ -69,8 +69,10 @@
 		tupel.invest=allSkins[i]["invest"];
 		tupel.min_price=allSkins[i]["min_price"];
 		tupel.suggested_price=allSkins[i]["suggested_price"];
-		tupel.reward=allSkins[i]["invest"]-allSkins[i]["suggested_price"];
-		tupel.percent= (allSkins[i]["invest"] / allSkins[i]["suggested_price"]) * 100;
+		tupel.reward=allSkins[i]["suggested_price"]-allSkins[i]["invest"];
+		tupel.reward=float_num.toFixed(tupel.reward);
+		tupel.percent=(allSkins[i]["suggested_price"] / allSkins[i]["invest"]) * 100;
+		tupel.percent=float_num.toFixed(tupel.percent);
 		
 		tabledata.push(tupel);
 	}
