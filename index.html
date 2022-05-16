@@ -124,19 +124,31 @@
 		{
 			title:"<a href='https://skinport.com/'>SkinPort</a>: Prices in €",
 			columns:[
-				{title:"Minimum", field:"min_price_sp", resizable:true, hozAlign:"right" },
-				{title:"Suggested", field:"suggested_price_sp", resizable:true, hozAlign:"right" },
+				{title:"Minimum", field:"min_price_sp", resizable:true, hozAlign:"right", formatter:function(cell, formatterParams){
+                        var value = cell.getValue();
+                        return value;
+                }  },
+				{title:"Suggested", field:"suggested_price_sp", resizable:true, hozAlign:"right", formatter:function(cell, formatterParams){
+                        var value = cell.getValue();
+                        return value;
+                }  },
 			],
 		},
 		
 		{
 			title:"<a href='https://skinbaron.de/'>SkinBaron</a>: Prices in €",
 			columns:[
-				{title:"Minimum", field:"min_price_sb", resizable:true, hozAlign:"right" },
+				{title:"Minimum", field:"min_price_sb", resizable:true, hozAlign:"right", formatter:function(cell, formatterParams){
+                        var value = cell.getValue();
+                        return value;
+                }  },
 			],
 		},
 		
-		{title:"Reward (in €)", field:"reward", resizable:true, hozAlign:"right", bottomCalc:"sum"},
+		{title:"Reward (in €)", field:"reward", resizable:true, hozAlign:"right", bottomCalc:"sum", formatter:function(cell, formatterParams){
+                        var value = cell.getValue();
+                        return value;
+                } },
 		{title:"in %", field:"percent", resizable:true, hozAlign:"right" },
 		],
 		layout:"fitDataTable",
