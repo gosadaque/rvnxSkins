@@ -70,9 +70,9 @@
 		} else {
 			tupel.name="<a href='" + allSkins[i]["link"] + "' target='_blank'>" + allSkins[i]["name"] + "</a>";
 		} 
-		tupel.invest=allSkins[i]["invest"];
-		tupel.min_price=allSkins[i]["min_price"];
-		tupel.suggested_price=allSkins[i]["suggested_price"];
+		tupel.invest=allSkins[i]["invest"]*allSkins[i]["count"];
+		tupel.min_price=allSkins[i]["min_price"]*allSkins[i]["count"];
+		tupel.suggested_price=allSkins[i]["suggested_price"]*allSkins[i]["count"];
 		tupel.reward=allSkins[i]["suggested_price"]-allSkins[i]["invest"];
 		tupel.reward=tupel.reward.toFixed(2);
 		tupel.percent=(allSkins[i]["suggested_price"]/allSkins[i]["invest"])*100-100;
