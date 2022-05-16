@@ -38,7 +38,7 @@
 					Buff 163 Prices
 				</div>
 				<div class="box">
-                                	Steam Market Prices
+                    Steam Market Prices
 				</div>
 				<div class="box">
 					Update Progress Bar
@@ -71,13 +71,13 @@
 		if (allSkins[i]["count"] > 1) {
 			tupel.name=allSkins[i]["count"]+"x <a href='" + allSkins[i]["link"] + "' target='_blank'>" + allSkins[i]["name"] + "</a>";
 		} else {
-			tupel.name="<a href='" + allSkins[i]["link"] + "' target='_blank'>" + allSkins[i]["name"] + "</a>";
+			tupel.name="<a href='" + allSkins[i]["link.sp"] + "' target='_blank'>" + allSkins[i]["name"] + "</a>";
 		} 
 		tupel.invest=allSkins[i]["invest"]*allSkins[i]["count"];
-		tupel.min_price=allSkins[i]["min_price"]*allSkins[i]["count"];
-		tupel.suggested_price=allSkins[i]["suggested_price"]*allSkins[i]["count"];
-		tupel.reward=allSkins[i]["suggested_price"]-allSkins[i]["invest"];
-		tupel.percent=(allSkins[i]["suggested_price"]/allSkins[i]["invest"])*100-100;
+		tupel.min_price=allSkins[i]["min_price.sp"]*allSkins[i]["count"];
+		tupel.suggested_price=allSkins[i]["suggested_price.sp"]*allSkins[i]["count"];
+		tupel.reward=allSkins[i]["suggested_price.sp"]*allSkins[i]["count"]-allSkins[i]["invest"]*allSkins[i]["count"];
+		tupel.percent=((allSkins[i]["suggested_price.sp"]*allSkins[i]["count"])/(allSkins[i]["invest"]*allSkins[i]["count"]))*100-100;
 		
 		tupel.invest=tupel.invest.toFixed(2);
 		tupel.min_price=tupel.min_price.toFixed(2);
@@ -97,11 +97,23 @@
                         var value = cell.getValue();
                         return value;
                 } },
-		{title:"Price", field:"invest", resizable:true, hozAlign:"right", bottomCalc:"sum"},
-		{title:"Min. Price", field:"min_price", resizable:true, hozAlign:"right" },
-		{title:"Sug. Price", field:"suggested_price", resizable:true },
+		{title:"Invested (in €)", field:"invest", resizable:true, hozAlign:"right", bottomCalc:"sum"},
+		{
+			title:"<a href='https://skinport.com/'>SkinPort</a>: Prices in €",
+			columns:[
+				{title:"Minimum", field:"min_price", resizable:true, hozAlign:"right" },
+				{title:"Suggested", field:"suggested_price", resizable:true, hozAlign:"right" },
+			],
+		},
 		
-		{title:"Reward", field:"reward", resizable:true, hozAlign:"right", bottomCalc:"sum"},
+		{
+			title:"<a href='https://skinbaron.de/'>SkinBaron</a>: Prices in €",
+			columns:[
+				{title:"Minimum", field:"min_price", resizable:true, hozAlign:"right" },
+			],
+		},
+		
+		{title:"Reward (in €)", field:"reward", resizable:true, hozAlign:"right", bottomCalc:"sum"},
 		{title:"in %", field:"percent", resizable:true, hozAlign:"right" },
 		],
 		layout:"fitDataTable",
