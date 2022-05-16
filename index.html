@@ -17,8 +17,6 @@
 				<h2>rvnxSkins</h2>
 			</div>
 			<div class="box">
-			</div>
-			<div class="box">
 				Take a look at rvnxMango's investments in CSGO skins.
 				<br/>
 				Updated every 12 hours!
@@ -32,7 +30,7 @@
 			<div class="box">
 				Soon Coming:
 				<div class="box">
-					Skinbaron Prices
+					Better Reward Calculation
 				</div>
 				<div class="box">
 					Buff 163 Prices
@@ -45,10 +43,7 @@
 				</div>
 			</div>
 			<div class="box">
-			</div>
-			<div class="box">
 				Code by <a href="https://linktr.ee/janmuesli" target="_blank" rel="noopener">Jan Müsli</a>. 
-				Prices by <a href="https://skinport.com/" target="_blank" rel="noopener">Skinport</a>. 
 				<br/>
 				<br/>
 				rvnxSkins is not affiliated with rvnxMango.
@@ -57,6 +52,10 @@
 		
 		<div class="centr">
 			<div class="box"><div id="skins-table"></div></div>
+			<div class="centr">
+				<div class="box">
+				</div>	
+			</div>
 		</div>	
 	</div>
 	
@@ -78,15 +77,35 @@
 		tupel.suggested_price_sp=allSkins[i]["suggested_price.sp"]*allSkins[i]["count"];
 		//tupel.reward=(allSkins[i]["suggested_price.sp"]*allSkins[i]["count"]+allSkins[i]["min_price.sp"]*allSkins[i]["count"]+allSkins[i]["min_price.sb"]*allSkins[i]["count"])/3-allSkins[i]["invest"]*allSkins[i]["count"];
 		tupel.reward=allSkins[i]["suggested_price.sp"]*allSkins[i]["count"]-allSkins[i]["invest"]*allSkins[i]["count"];
-		tupel.percent=(tupel.reward/(allSkins[i]["invest"]*allSkins[i]["count"]))*100-100;
+		tupel.percent=(tupel.suggested_price_sp/(allSkins[i]["invest"]*allSkins[i]["count"]))*100-100;
 		tupel.min_price_sb=allSkins[i]["min_price.sb"]*allSkins[i]["count"];
 
 		tupel.invest=tupel.invest.toFixed(2);
-		tupel.min_price_sp=tupel.min_price_sp.toFixed(2);
-		tupel.suggested_price_sp=tupel.suggested_price_sp.toFixed(2);
-		tupel.reward=tupel.reward.toFixed(2);
 		tupel.percent=tupel.percent.toFixed(2);
+		tupel.min_price_sp=tupel.min_price_sp.toFixed(2);
+		//if (tupel.min_price_sp < tupel.invest) {
+		//	tupel.min_price_sp="<div class='minus'>"+tupel.min_price_sp+"</div>";
+		//} else if ( tupel.min_price_sp > tupel.invest ) {
+		//	tupel.min_price_sp="<div class='plus'>"+tupel.min_price_sp+"</div>";
+		//}
+		tupel.suggested_price_sp=tupel.suggested_price_sp.toFixed(2);
+		//if (tupel.suggested_price_sp < tupel.invest) {
+		//	tupel.suggested_price_sp="<div class='minus'>"+tupel.suggested_price_sp+"</div>";
+		//} else if ( tupel.suggested_price_sp > tupel.invest ) {
+		//	tupel.suggested_price_sp="<div class='plus'>"+tupel.suggested_price_sp+"</div>";
+		//}
+		tupel.reward=tupel.reward.toFixed(2);
+		//if (tupel.reward < tupel.invest) {
+		//	tupel.reward="<div class='minus'>"+tupel.reward+"</div>";
+		//} else if ( tupel.reward > tupel.invest ) {
+		//	tupel.reward="<div class='plus'>"+tupel.reward+"</div>";
+		//}
 		tupel.min_price_sb=tupel.min_price_sb.toFixed(2);
+		//if (tupel.min_price_sb < tupel.invest) {
+		//	tupel.min_price_sb="<div class='minus'>"+tupel.min_price_sb+"</div>";
+		//} else if ( tupel.min_price_sb > tupel.invest ) {
+		//	tupel.min_price_sb="<div class='plus'>"+tupel.min_price_sb+"</div>";
+		//}
 		
 		tabledata.push(tupel);
 	}
@@ -100,23 +119,35 @@
                         var value = cell.getValue();
                         return value;
                 } },
-		{title:"Invested (in €)", field:"invest", resizable:true, hozAlign:"right", bottomCalc:"sum"},
+		{title:"Invested (in €)", field:"invest", resizable:true, hozAlign:"right", bottomCalc:"sum", bottomCalcParams:{precision:2,}},
 		{
 			title:"<a href='https://skinport.com/'>SkinPort</a>: Prices in €",
 			columns:[
-				{title:"Minimum", field:"min_price_sp", resizable:true, hozAlign:"right" },
-				{title:"Suggested", field:"suggested_price_sp", resizable:true, hozAlign:"right" },
+				{title:"Minimum", field:"min_price_sp", resizable:true, hozAlign:"right", formatter:function(cell, formatterParams){
+                        var value = cell.getValue();
+                        return value;
+                }  },
+				{title:"Suggested", field:"suggested_price_sp", resizable:true, hozAlign:"right", formatter:function(cell, formatterParams){
+                        var value = cell.getValue();
+                        return value;
+                }  },
 			],
 		},
 		
 		{
 			title:"<a href='https://skinbaron.de/'>SkinBaron</a>: Prices in €",
 			columns:[
-				{title:"Minimum", field:"min_price_sb", resizable:true, hozAlign:"right" },
+				{title:"Minimum", field:"min_price_sb", resizable:true, hozAlign:"right", formatter:function(cell, formatterParams){
+                        var value = cell.getValue();
+                        return value;
+                }  },
 			],
 		},
 		
-		{title:"Reward (in €)", field:"reward", resizable:true, hozAlign:"right", bottomCalc:"sum"},
+		{title:"Reward (in €)", field:"reward", resizable:true, hozAlign:"right", bottomCalc:"sum",  bottomCalcParams:{precision:2,}, formatter:function(cell, formatterParams){
+                        var value = cell.getValue();
+                        return value;
+                } },
 		{title:"in %", field:"percent", resizable:true, hozAlign:"right" },
 		],
 		layout:"fitDataTable",
