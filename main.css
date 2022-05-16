@@ -7,6 +7,14 @@ a {
 	color: #8ab4f8;
 }
 
+.plus {
+	color: #38FF00;
+}
+
+.minus {
+	color: #FF0038;
+}
+
 .home {
     display: flex;
     width: 100%;
