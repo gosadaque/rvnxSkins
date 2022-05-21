@@ -55,6 +55,9 @@
 			<div class="box">
 				<div id="skins-table"></div>
 			</div>
+			<!--div class="box">
+				<canvas id="skins-chart"></canvas>
+			</div!-->	
 		</div>	
 	</div>
 	
@@ -74,7 +77,6 @@
 		tupel.invest=allSkins[i]["invest"]*allSkins[i]["count"];
 		tupel.min_price_sp=allSkins[i]["min_price.sp"]*allSkins[i]["count"];
 		tupel.suggested_price_sp=allSkins[i]["suggested_price.sp"]*allSkins[i]["count"];
-		tupel.percent=(tupel.suggested_price_sp/(allSkins[i]["invest"]*allSkins[i]["count"]))*100-100;
 		tupel.min_price_sb=allSkins[i]["min_price.sb"]*allSkins[i]["count"];
 		
 		tupel.reward=0;
@@ -94,6 +96,9 @@
 		tupel.reward=tupel.reward/rewardCounti-tupel.invest;
 		
 		tupel.invest=tupel.invest.toFixed(2);
+		
+		
+		tupel.percent=(tupel.reward/(allSkins[i]["invest"]*allSkins[i]["count"]))*100-100;
 		tupel.percent=tupel.percent.toFixed(2);
 		if (tupel.percent < 0) {
 			tupel.percent="<div class='minus'>"+tupel.percent+"</div>";
@@ -154,6 +159,23 @@
 		layoutColumnsOnNewData:true,
 	});
 	
+	const ctx = document.getElementById('skins-chart').getContext('2d');
+	const myChart = new Chart(ctx, {
+		type: 'line',
+		data: {
+			labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+			datasets: [{
+				label: 'Return (in €)',
+				data: [700, 710, 750, 775, 742, 773],
+				borderColor: [
+					'rgba(255, 99, 132, 1)'
+				],
+				borderWidth: 1
+			}]
+		},
+		options: {
+		}
+	});
 	
 	
 	
