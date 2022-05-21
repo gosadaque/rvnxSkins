@@ -29,7 +29,7 @@
 				<iframe width="400" height="225" src="https://www.youtube-nocookie.com/embed/gOJRNFGzdiI" title="YouTube video player" loading="lazy" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 			</div>
 			<div class="box">
-				Return is calculated by <br/>1. summing up all prices (Suggested and minimum ones) and <br/>2. dividing them by the number of prices,<br/> which are greater than 0.
+				Return is calculated by <br/>1. summing up all prices (Suggested and minimum ones) and <br/>2. dividing them by the number of prices,<br/> which are greater than 0.<br/><br/>Suggested prices are half weighted for now!
 			</div>
 			<div class="box">
 				Soon Coming:
@@ -90,8 +90,8 @@
 			rewardCounti=rewardCounti+1;
 		}
 		if (tupel.suggested_price_sp > 0) {
-			tupel.reward=tupel.reward+tupel.suggested_price_sp;
-			rewardCounti=rewardCounti+1;
+			tupel.reward=tupel.reward+(tupel.suggested_price_sp/2);
+			rewardCounti=rewardCounti+0.5;
 		}
 		tupel.reward=tupel.reward/rewardCounti-tupel.invest;
 		
