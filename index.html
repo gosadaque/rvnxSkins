@@ -5,6 +5,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/5.2.4/js/tabulator.min.js" integrity="sha512-jN3EsqOOePNRzqYuo2UuuxIBRkBAO2zS5tkG54Y8WYnUCcCFfg1/o3YlEOe4bBVrStnNFz/YyOOTFNQrXUVDqg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js" integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script type="text/javascript" src="rvnxSkins.js"></script>
 	<link href="./main.css" rel="stylesheet" async>
 	<title>rvnxSkins - brrrrt moneyzz</title>
@@ -28,10 +29,10 @@
 				<iframe width="400" height="225" src="https://www.youtube-nocookie.com/embed/gOJRNFGzdiI" title="YouTube video player" loading="lazy" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 			</div>
 			<div class="box">
+				Return is calculated by <br/>1. summing up all prices (Suggested and minimum ones) and <br/>2. dividing them by the number of prices,<br/> which are greater than 0.
+			</div>
+			<div class="box">
 				Soon Coming:
-				<div class="box">
-					Better Reward Calculation
-				</div>
 				<div class="box">
 					Buff 163 Prices
 				</div>
@@ -51,10 +52,8 @@
 		</div>
 		
 		<div class="centr">
-			<div class="box"><div id="skins-table"></div></div>
-			<div class="centr">
-				<div class="box">
-				</div>	
+			<div class="box">
+				<div id="skins-table"></div>
 			</div>
 		</div>	
 	</div>
@@ -75,43 +74,41 @@
 		tupel.invest=allSkins[i]["invest"]*allSkins[i]["count"];
 		tupel.min_price_sp=allSkins[i]["min_price.sp"]*allSkins[i]["count"];
 		tupel.suggested_price_sp=allSkins[i]["suggested_price.sp"]*allSkins[i]["count"];
-		//tupel.reward=(allSkins[i]["suggested_price.sp"]*allSkins[i]["count"]+allSkins[i]["min_price.sp"]*allSkins[i]["count"]+allSkins[i]["min_price.sb"]*allSkins[i]["count"])/3-allSkins[i]["invest"]*allSkins[i]["count"];
-		tupel.reward=allSkins[i]["suggested_price.sp"]*allSkins[i]["count"]-allSkins[i]["invest"]*allSkins[i]["count"];
 		tupel.percent=(tupel.suggested_price_sp/(allSkins[i]["invest"]*allSkins[i]["count"]))*100-100;
 		tupel.min_price_sb=allSkins[i]["min_price.sb"]*allSkins[i]["count"];
-
+		
+		tupel.reward=0;
+		rewardCounti=0;
+		if (tupel.min_price_sp > 0) {
+			tupel.reward=tupel.reward+tupel.min_price_sp;
+			rewardCounti=rewardCounti+1;
+		}
+		if (tupel.min_price_sb > 0) {
+			tupel.reward=tupel.reward+tupel.min_price_sb;
+			rewardCounti=rewardCounti+1;
+		}
+		if (tupel.suggested_price_sp > 0) {
+			tupel.reward=tupel.reward+tupel.suggested_price_sp;
+			rewardCounti=rewardCounti+1;
+		}
+		tupel.reward=tupel.reward/rewardCounti-tupel.invest;
+		
 		tupel.invest=tupel.invest.toFixed(2);
 		tupel.percent=tupel.percent.toFixed(2);
+		if (tupel.percent < 0) {
+			tupel.percent="<div class='minus'>"+tupel.percent+"</div>";
+		} else if ( tupel.percent > 0 ) {
+			tupel.percent="<div class='plus'>"+tupel.percent+"</div>";
+		}
+		
 		tupel.min_price_sp=tupel.min_price_sp.toFixed(2);
-		//if (tupel.min_price_sp < tupel.invest) {
-		//	tupel.min_price_sp="<div class='minus'>"+tupel.min_price_sp+"</div>";
-		//} else if ( tupel.min_price_sp > tupel.invest ) {
-		//	tupel.min_price_sp="<div class='plus'>"+tupel.min_price_sp+"</div>";
-		//}
 		tupel.suggested_price_sp=tupel.suggested_price_sp.toFixed(2);
-		//if (tupel.suggested_price_sp < tupel.invest) {
-		//	tupel.suggested_price_sp="<div class='minus'>"+tupel.suggested_price_sp+"</div>";
-		//} else if ( tupel.suggested_price_sp > tupel.invest ) {
-		//	tupel.suggested_price_sp="<div class='plus'>"+tupel.suggested_price_sp+"</div>";
-		//}
 		tupel.reward=tupel.reward.toFixed(2);
-		//if (tupel.reward < tupel.invest) {
-		//	tupel.reward="<div class='minus'>"+tupel.reward+"</div>";
-		//} else if ( tupel.reward > tupel.invest ) {
-		//	tupel.reward="<div class='plus'>"+tupel.reward+"</div>";
-		//}
 		tupel.min_price_sb=tupel.min_price_sb.toFixed(2);
-		//if (tupel.min_price_sb < tupel.invest) {
-		//	tupel.min_price_sb="<div class='minus'>"+tupel.min_price_sb+"</div>";
-		//} else if ( tupel.min_price_sb > tupel.invest ) {
-		//	tupel.min_price_sb="<div class='plus'>"+tupel.min_price_sb+"</div>";
-		//}
 		
 		tabledata.push(tupel);
 	}
 	
-
-	//initialize table
 	var table = new Tabulator("#skins-table", {
 		data:tabledata, //assign data to table
 		columns:[
@@ -148,11 +145,19 @@
                         var value = cell.getValue();
                         return value;
                 } },
-		{title:"in %", field:"percent", resizable:true, hozAlign:"right" },
+		{title:"in %", field:"percent", resizable:true, hozAlign:"right", formatter:function(cell, formatterParams){
+                        var value = cell.getValue();
+                        return value;
+                } },
 		],
 		layout:"fitDataTable",
 		layoutColumnsOnNewData:true,
 	});
+	
+	
+	
+	
+	
 </script>
 	
 
