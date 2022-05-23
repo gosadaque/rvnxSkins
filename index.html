@@ -126,9 +126,9 @@
                 } },
 		{title:"Invested (in €)", field:"invest", resizable:true, hozAlign:"right", bottomCalc:"sum", bottomCalcParams:{precision:2,}},
 		{
-			title:"<a href='https://skinport.com/'>SkinPort</a>: Prices in €",
+			title:"<a href='https://skinport.com/'>SkinPort</a>",
 			columns:[
-				{title:"Minimum", field:"min_price_sp", resizable:true, hozAlign:"right", formatter:function(cell, formatterParams){
+				{title:"Min. Price in €", field:"min_price_sp", resizable:true, hozAlign:"right", formatter:function(cell, formatterParams){
                         var value = cell.getValue();
                         return value;
                 }  },
@@ -136,9 +136,9 @@
 		},
 		
 		{
-			title:"<a href='https://skinbaron.de/'>SkinBaron</a>: Prices in €",
+			title:"<a href='https://skinbaron.de/'>SkinBaron</a>",
 			columns:[
-				{title:"Minimum", field:"min_price_sb", resizable:true, hozAlign:"right", formatter:function(cell, formatterParams){
+				{title:"Min. Price in €", field:"min_price_sb", resizable:true, hozAlign:"right", formatter:function(cell, formatterParams){
                         var value = cell.getValue();
                         return value;
                 }  },
@@ -146,9 +146,9 @@
 		},
 		
 		{
-			title:"<a href='https://steamcommunity.de/'>Steam</a>: Prices in €",
+			title:"<a href='https://steamcommunity.de/'>Steam</a>",
 			columns:[
-				{title:"Minimum", field:"min_price_steam", resizable:true, hozAlign:"right", formatter:function(cell, formatterParams){
+				{title:"Min. Price in €", field:"min_price_steam", resizable:true, hozAlign:"right", formatter:function(cell, formatterParams){
                         var value = cell.getValue();
                         return value;
                 }  },
@@ -156,20 +156,20 @@
 		},
 		
 		{
-			title:"<a href='https://buff.163.com/'>Buff163</a>: Prices in €",
+			title:"<a href='https://buff.163.com/'>Buff163</a>",
 			columns:[
-				{title:"Minimum", field:"min_price_buff", resizable:true, hozAlign:"right", formatter:function(cell, formatterParams){
+				{title:"Min. Price in €", field:"min_price_buff", resizable:true, hozAlign:"right", formatter:function(cell, formatterParams){
                         var value = cell.getValue();
                         return value;
                 }  },
 			],
 		},
 		
-		{title:"Return (in €)", field:"reward", resizable:true, hozAlign:"right", bottomCalc:"sum",  bottomCalcParams:{precision:2,}, formatter:function(cell, formatterParams){
+		{title:"Avg. Return<br/> in €", field:"reward", resizable:true, hozAlign:"right", bottomCalc:"sum",  bottomCalcParams:{precision:2,}, formatter:function(cell, formatterParams){
                         var value = cell.getValue();
                         return value;
                 } },
-		{title:"in %", field:"percent", resizable:true, hozAlign:"right", formatter:function(cell, formatterParams){
+		{title:"Avg. Return<br/>in %", field:"percent", resizable:true, hozAlign:"right", formatter:function(cell, formatterParams){
                         var value = cell.getValue();
                         return value;
                 } },
