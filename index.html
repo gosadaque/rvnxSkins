@@ -29,16 +29,10 @@
 				<iframe width="400" height="225" src="https://www.youtube-nocookie.com/embed/gOJRNFGzdiI" title="YouTube video player" loading="lazy" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 			</div>
 			<div class="box">
-				Return is calculated by <br/>1. summing up all prices (Suggested and minimum ones) and <br/>2. dividing them by the number of prices,<br/> which are greater than 0.<br/><br/>Suggested prices are half weighted for now!
+				Return is calculated by <br/>1. summing up all prices and <br/>2. dividing them by the number of prices,<br/> which are greater than 0.
 			</div>
 			<div class="box">
 				Soon Coming:
-				<div class="box">
-					Buff 163 Prices
-				</div>
-				<div class="box">
-                    Steam Market Prices
-				</div>
 				<div class="box">
 					Update Progress Bar
 				</div>
@@ -75,9 +69,9 @@
 			tupel.name="<a href='" + allSkins[i]["link.sp"] + "' target='_blank'>" + allSkins[i]["name"] + "</a>";
 		} 
 		tupel.invest=allSkins[i]["invest"]*allSkins[i]["count"];
-		tupel.min_price_sp=allSkins[i]["min_price.sp"]*allSkins[i]["count"];
-		tupel.suggested_price_sp=allSkins[i]["suggested_price.sp"]*allSkins[i]["count"];
-		tupel.min_price_sb=allSkins[i]["min_price.sb"]*allSkins[i]["count"];
+		tupel.min_price_sp=allSkins[i]["prices"]["skinport"]*allSkins[i]["count"];
+		tupel.min_price_sb=allSkins[i]["prices"]["skinbaron"]*allSkins[i]["count"];
+		tupel.min_price_buff=allSkins[i]["prices"]["buff163"]*allSkins[i]["count"];
 		
 		tupel.reward=0;
 		rewardCounti=0;
@@ -89,9 +83,9 @@
 			tupel.reward=tupel.reward+tupel.min_price_sb;
 			rewardCounti=rewardCounti+1;
 		}
-		if (tupel.suggested_price_sp > 0) {
-			tupel.reward=tupel.reward+(tupel.suggested_price_sp/2);
-			rewardCounti=rewardCounti+0.5;
+		if (tupel.min_price_buff > 0) {
+			tupel.reward=tupel.reward+(tupel.min_price_buff);
+			rewardCounti=rewardCounti+1;
 		}
 		tupel.reward=tupel.reward/rewardCounti-tupel.invest;
 		
@@ -107,9 +101,9 @@
 		}
 		
 		tupel.min_price_sp=tupel.min_price_sp.toFixed(2);
-		tupel.suggested_price_sp=tupel.suggested_price_sp.toFixed(2);
-		tupel.reward=tupel.reward.toFixed(2);
 		tupel.min_price_sb=tupel.min_price_sb.toFixed(2);
+		tupel.min_price_buff=tupel.min_price_buff.toFixed(2);
+		tupel.reward=tupel.reward.toFixed(2);
 		
 		tabledata.push(tupel);
 	}
@@ -129,10 +123,6 @@
                         var value = cell.getValue();
                         return value;
                 }  },
-				{title:"Suggested", field:"suggested_price_sp", resizable:true, hozAlign:"right", formatter:function(cell, formatterParams){
-                        var value = cell.getValue();
-                        return value;
-                }  },
 			],
 		},
 		
@@ -140,6 +130,16 @@
 			title:"<a href='https://skinbaron.de/'>SkinBaron</a>: Prices in €",
 			columns:[
 				{title:"Minimum", field:"min_price_sb", resizable:true, hozAlign:"right", formatter:function(cell, formatterParams){
+                        var value = cell.getValue();
+                        return value;
+                }  },
+			],
+		},
+		
+		{
+			title:"<a href='https://buff.163.com/'>Buff163</a>: Prices in €",
+			columns:[
+				{title:"Minimum", field:"min_price_buff", resizable:true, hozAlign:"right", formatter:function(cell, formatterParams){
                         var value = cell.getValue();
                         return value;
                 }  },
