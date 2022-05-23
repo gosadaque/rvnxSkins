@@ -29,7 +29,7 @@
 				<iframe width="400" height="225" src="https://www.youtube-nocookie.com/embed/gOJRNFGzdiI" title="YouTube video player" loading="lazy" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 			</div>
 			<div class="box">
-				Return is calculated by <br/>1. summing up all prices and <br/>2. dividing them by the number of prices,<br/> which are greater than 0.
+				Return is calculated by <br/><br/>1. summing up all prices <br/><br/>( 1*SkinPort & SkinBaron<br/>0.5*Steam & Buff136 ) <br/><br/>2. dividing them by the number of prices,<br/> which are greater than 0.
 			</div>
 			<div class="box">
 				Soon Coming:
@@ -75,6 +75,7 @@
 		tupel.min_price_sp=allSkins[i]["prices"]["skinport"]*allSkins[i]["count"];
 		tupel.min_price_sb=allSkins[i]["prices"]["skinbaron"]*allSkins[i]["count"];
 		tupel.min_price_buff=allSkins[i]["prices"]["buff163"]*allSkins[i]["count"];
+		tupel.min_price_steam=allSkins[i]["prices"]["steam_listing"]*allSkins[i]["count"];
 		
 		tupel.reward=0;
 		rewardCounti=0;
@@ -86,9 +87,13 @@
 			tupel.reward=tupel.reward+tupel.min_price_sb;
 			rewardCounti=rewardCounti+1;
 		}
+		if (tupel.min_price_steam > 0) {
+			tupel.reward=tupel.reward+tupel.min_price_steam*0.5;
+			rewardCounti=rewardCounti+0.5;
+		}
 		if (tupel.min_price_buff > 0) {
-			tupel.reward=tupel.reward+(tupel.min_price_buff);
-			rewardCounti=rewardCounti+1;
+			tupel.reward=tupel.reward+(tupel.min_price_buff)*0.5;
+			rewardCounti=rewardCounti+0.5;
 		}
 		tupel.reward=tupel.reward/rewardCounti-tupel.invest;
 		
@@ -106,6 +111,7 @@
 		tupel.min_price_sp=tupel.min_price_sp.toFixed(2);
 		tupel.min_price_sb=tupel.min_price_sb.toFixed(2);
 		tupel.min_price_buff=tupel.min_price_buff.toFixed(2);
+		tupel.min_price_steam=tupel.min_price_steam.toFixed(2);
 		tupel.reward=tupel.reward.toFixed(2);
 		
 		tabledata.push(tupel);
@@ -133,6 +139,16 @@
 			title:"<a href='https://skinbaron.de/'>SkinBaron</a>: Prices in €",
 			columns:[
 				{title:"Minimum", field:"min_price_sb", resizable:true, hozAlign:"right", formatter:function(cell, formatterParams){
+                        var value = cell.getValue();
+                        return value;
+                }  },
+			],
+		},
+		
+		{
+			title:"<a href='https://steamcommunity.de/'>Steam</a>: Prices in €",
+			columns:[
+				{title:"Minimum", field:"min_price_steam", resizable:true, hozAlign:"right", formatter:function(cell, formatterParams){
                         var value = cell.getValue();
                         return value;
                 }  },
